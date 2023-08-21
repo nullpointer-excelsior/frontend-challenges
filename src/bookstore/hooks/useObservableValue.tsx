@@ -7,10 +7,10 @@ type ObservableValue<T> = [
     isCompleted: boolean
 ]
 
-export default function useObservableValue<T>(observable$: Observable<T>): ObservableValue<T> {
+export default function useObservableValue<T>(observable$: Observable<T>, defaultValue: T): ObservableValue<T> {
 
-    const [value, setValue] = useState<T>()
-    const [error, setError] = useState(null)
+    const [value, setValue] = useState<T>(defaultValue)
+    const [error, setError] = useState<false | Error>(false)
     const [isCompleted, setIsCompleted] = useState(false)
     
     useEffect(() => {
