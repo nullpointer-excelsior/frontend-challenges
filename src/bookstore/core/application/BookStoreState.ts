@@ -2,9 +2,6 @@ import { BehaviorSubject, Observable, map } from "rxjs";
 import { Book } from "../domain/model/Book";
 import { BookStore } from "../domain/state/BookStore";
 
-
-
-
 export class BookStoreState {
 
     private genres: string[] = []
@@ -34,6 +31,10 @@ export class BookStoreState {
 
     setBooks(books: Book[]): void {
         this.book$.next(books)
+    }
+
+    setReadingList(books: Book[]): void {
+        this.readingList$.next(books)
     }
 
     addToReadingList(book: Book) {

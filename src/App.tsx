@@ -1,16 +1,11 @@
 import useObservableValue from './bookstore/hooks/useObservableValue'
-import { bookstoreState, statePersistence } from './bookstore/core/services'
+import { bookstoreState, syncState } from './bookstore/core/services'
 import BookItem from './bookstore/components/BookItem'
 import BookBudge from './bookstore/components/BookBudge'
 import { Book } from './bookstore/core/domain/model/Book'
 import BookList from './bookstore/components/BookList'
-import { onCloseApp$ } from './bookstore/utils/reactive-events'
-import { switchMap } from 'rxjs'
 import useObservable from './bookstore/hooks/useObservable'
 
-
-const saveBooksOnClose$ = onCloseApp$.pipe(switchMap(() => bookstoreState.getBooks()))
-const saveReadingListOnClose$ = onCloseApp$.pipe(switchMap(() => bookstoreState.getReadingList()))
 
 
 function App() {
@@ -18,11 +13,13 @@ function App() {
   const [readingList] = useObservableValue(bookstoreState.getReadingList(), [])
   const [countReadingList] = useObservableValue(bookstoreState.getCountReadingList(), 0)
 
-  useObservable(saveBooksOnClose$, (books: Book[]) => statePersistence.saveBooks(books))
-  useObservable(saveReadingListOnClose$, (books: Book[]) => statePersistence.saveReadingList(books))
+  useObservable(syncState.saveBooks(), () => { })
+  useObservable(syncState.saveReadingList(), () => { })
+  useObservable(syncState.syncBooks(), () => { })
+  useObservable(syncState.syncReadingList(), () => { })
 
   const handleRemoveFromReadingList = (book: Book) => bookstoreState.removeFromReadingList(book)
-
+  
   return (
     <div className="bg-gray-100">
       <header className="bg-blue-500 text-white p-4">
