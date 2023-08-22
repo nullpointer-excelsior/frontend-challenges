@@ -13,10 +13,10 @@ function App() {
   const [readingList] = useObservableValue(bookstoreState.getReadingList(), [])
   const [countReadingList] = useObservableValue(bookstoreState.getCountReadingList(), 0)
 
-  useObservable(syncState.saveBooks(), () => { })
-  useObservable(syncState.saveReadingList(), () => { })
-  useObservable(syncState.syncBooks(), () => { })
-  useObservable(syncState.syncReadingList(), () => { })
+  useObservable(syncState.saveBooks())
+  useObservable(syncState.saveReadingList())
+  useObservable(syncState.syncBooks())
+  useObservable(syncState.syncReadingList())
 
   const handleRemoveFromReadingList = (book: Book) => bookstoreState.removeFromReadingList(book)
   
