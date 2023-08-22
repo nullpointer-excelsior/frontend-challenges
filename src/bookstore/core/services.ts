@@ -10,5 +10,5 @@ export const bookstoreState = new BookStoreState({
     readingList: []
 })
 
-export const bookSearch = new BookSearch(getBooks())
+export const bookSearch = new BookSearch()
 

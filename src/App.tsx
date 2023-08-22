@@ -3,25 +3,21 @@ import { bookSearch, bookstoreState, statePersistence } from './bookstore/core/s
 import BookItem from './bookstore/components/BookItem'
 import SelectGenre from './bookstore/components/SelectGenre'
 import BookBudge from './bookstore/components/BookBudge'
-import useObservable from './bookstore/hooks/useObservable'
+import { Book } from './bookstore/core/domain/model/Book'
+import BookList from './bookstore/components/BookList'
+import getBooks from './bookstore/core/domain/api/getBooks'
 
-const genresOptions = bookstoreState.getGenres()
-  .map(item => ({
-    label: item,
-    value: item
-  }))
+
 
 function App() {
 
   const [books] = useObservableValue(bookstoreState.getBooks(), [])
+  // const [filteredBooks] = useObservableValue(bookSearch.getFilteredBooks(), [])
   const [readingList] = useObservableValue(bookstoreState.getReadingList(), [])
   const [countReadingList] = useObservableValue(bookstoreState.getCountReadingList(), 0)
   const [countBooks] = useObservableValue(bookstoreState.getCountBooks(), 0)
 
-  const handleOnSelectGenre = (genre: string) => {
-    const filtered = bookSearch.filterByGenre(genre)
-    bookstoreState.setBooks(filtered)
-  }
+  const handleRemoveFromReadingList = (book: Book) => bookstoreState.removeFromReadingList(book)
 
   return (
     <div className="bg-gray-100">
@@ -42,20 +38,15 @@ function App() {
         <div className='flex justify-center flex-col text-center my-4'>
           <h2 className="text-xl mb-2 font-medium">Libros disponibles</h2>
           <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis est a sapien faucibus, at interdum nulla pellentesque.</p>
-          <SelectGenre options={genresOptions} onSelectGenre={handleOnSelectGenre} />
+          
         </div>
 
         <div className='flex justify-center text-center'>
           <div className='rounded-md border p-4'>
             <p className='text-xl'>Lista de lectura <BookBudge>{countReadingList}</BookBudge></p>
-            {readingList.map(book => <BookItem key={book.ISBN} book={book} onClick={(book) => bookstoreState.removeFromReadingList(book)} />)}
+            {readingList.map(book => <BookItem key={book.ISBN} book={book} onClick={handleRemoveFromReadingList} />)}
           </div>
-          <div>
-            <p className='text-lg'>Libros disponibles <BookBudge>{countBooks}</BookBudge></p>
-            <div className='grid grid-cols-3 grid-flow-row gap-4'>
-              {books.map(book => <BookItem key={book.ISBN} book={book} onClick={(book) => bookstoreState.addToReadingList(book)} />)}
-            </div>
-          </div>
+          <BookList books={books}/>
         </div>
       </section>
     </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { bookstoreState } from '../core/services';
 
 interface Option {
   value: string;
@@ -6,11 +7,16 @@ interface Option {
 }
 
 interface ComboBoxProps {
-  options: Option[];
   onSelectGenre: (genre: string) => void
 }
 
-const SelectGenre: React.FC<ComboBoxProps> = ({ options, onSelectGenre }) => {
+const options = bookstoreState.getGenres()
+  .map(item => ({
+    label: item,
+    value: item
+  }))
+
+const SelectGenre: React.FC<ComboBoxProps> = ({ onSelectGenre }) => {
   
   const [selectedOption, setSelectedOption] = useState<Option | null>(null);
 
