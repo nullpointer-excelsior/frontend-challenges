@@ -1,20 +1,30 @@
-import { BookStore } from "../domain/state/BookStore";
 import { Book } from "../domain/model/Book";
+import getBooks from "../domain/api/getBooks";
 
 export class StatePersistence {
     
-    saveBookstore(store: BookStore) {
-        localStorage.setItem("books", JSON.stringify(store.books))
-        localStorage.setItem("readingList", JSON.stringify(store.readingList))
+    saveBooks(books: Book[]) {
+        localStorage.setItem("books", JSON.stringify(books))
     }
 
-    readBookStore() : BookStore {
-        const books = JSON.parse(localStorage.getItem("books")) as Book[]
-        const readingList = JSON.parse(localStorage.getItem("readingList")) as Book[]
-        return {
-            books,
-            readingList
+    saveReadingList(books: Book[]) {
+        localStorage.setItem("readingList", JSON.stringify(books))
+    }
+
+    readBooks(): Book[]  {
+        const item = localStorage.getItem("books")
+        if (item) {
+            return JSON.parse(item)
         }
+        return getBooks()
+    }
+
+    readreadingList(): Book[] {
+        const item = localStorage.getItem("readingList")
+        if(item) {
+            return JSON.parse(item)
+        }
+        return []
     }
 
 }

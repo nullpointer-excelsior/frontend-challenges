@@ -1,21 +1,25 @@
 import useObservableValue from './bookstore/hooks/useObservableValue'
-import { bookSearch, bookstoreState, statePersistence } from './bookstore/core/services'
+import { bookstoreState, statePersistence } from './bookstore/core/services'
 import BookItem from './bookstore/components/BookItem'
-import SelectGenre from './bookstore/components/SelectGenre'
 import BookBudge from './bookstore/components/BookBudge'
 import { Book } from './bookstore/core/domain/model/Book'
 import BookList from './bookstore/components/BookList'
-import getBooks from './bookstore/core/domain/api/getBooks'
+import { onCloseApp$ } from './bookstore/utils/reactive-events'
+import { switchMap } from 'rxjs'
+import useObservable from './bookstore/hooks/useObservable'
 
+
+const saveBooksOnClose$ = onCloseApp$.pipe(switchMap(() => bookstoreState.getBooks()))
+const saveReadingListOnClose$ = onCloseApp$.pipe(switchMap(() => bookstoreState.getReadingList()))
 
 
 function App() {
 
-  const [books] = useObservableValue(bookstoreState.getBooks(), [])
-  // const [filteredBooks] = useObservableValue(bookSearch.getFilteredBooks(), [])
   const [readingList] = useObservableValue(bookstoreState.getReadingList(), [])
   const [countReadingList] = useObservableValue(bookstoreState.getCountReadingList(), 0)
-  const [countBooks] = useObservableValue(bookstoreState.getCountBooks(), 0)
+
+  useObservable(saveBooksOnClose$, (books: Book[]) => statePersistence.saveBooks(books))
+  useObservable(saveReadingListOnClose$, (books: Book[]) => statePersistence.saveReadingList(books))
 
   const handleRemoveFromReadingList = (book: Book) => bookstoreState.removeFromReadingList(book)
 
@@ -38,7 +42,7 @@ function App() {
         <div className='flex justify-center flex-col text-center my-4'>
           <h2 className="text-xl mb-2 font-medium">Libros disponibles</h2>
           <p className="text-gray-700">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam convallis est a sapien faucibus, at interdum nulla pellentesque.</p>
-          
+
         </div>
 
         <div className='flex justify-center text-center'>
@@ -46,7 +50,7 @@ function App() {
             <p className='text-xl'>Lista de lectura <BookBudge>{countReadingList}</BookBudge></p>
             {readingList.map(book => <BookItem key={book.ISBN} book={book} onClick={handleRemoveFromReadingList} />)}
           </div>
-          <BookList books={books}/>
+          <BookList />
         </div>
       </section>
     </div>
