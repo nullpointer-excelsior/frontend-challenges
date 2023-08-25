@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { bookSearch, bookstoreState } from '../core/services';
+import { bookSearch } from '../core/services';
 import useObservableValue from '../hooks/useObservableValue';
 
 interface Option {
@@ -11,11 +11,7 @@ interface ComboBoxProps {
   onSelectGenre: (genre: string) => void
 }
 
-const options = bookstoreState.getGenres()
-  .map(item => ({
-    label: item,
-    value: item
-  }))
+const options = bookSearch.getGenresOptions()
 
 const SelectGenre: React.FC<ComboBoxProps> = ({ onSelectGenre }) => {
 

@@ -1,10 +1,32 @@
 import { BehaviorSubject, map, switchMap, tap } from "rxjs";
 import { bookstoreState } from "../services";
+import { BookStoreState } from "./BookStoreState";
+
+const ALL_BOOKS_GENRE = "Todos los libros" 
+
+type GenreOptions = { 
+    label: string; 
+    value: string; 
+}
 
 export class BookSearch {
 
-    private filter$ = new BehaviorSubject<string>("Todos los libros")
+    private genreOptions: GenreOptions[] = []
+    private filter$ = new BehaviorSubject<string>(ALL_BOOKS_GENRE)
     private booksAvailable$ = new BehaviorSubject(0)
+
+    constructor(private state$: BookStoreState) {
+        
+        this.state$.getBooks().pipe(
+            map(book => book.map(item => item.genre)),
+            map(genres => [...new Set(genres)]),
+            map(genres => genres.map(genre => ({
+                label: genre,
+                value: genre
+            }))),
+        ).subscribe(options => this.genreOptions = options)
+
+    }
 
     setFilterByGenre(genre: string) {
         this.filter$.next(genre)
@@ -13,7 +35,7 @@ export class BookSearch {
     getFilteredBooks() {
         return this.filter$.pipe(
             switchMap(genre => {
-                if (genre === "Todos los libros") {
+                if (genre === ALL_BOOKS_GENRE) {
                     return bookstoreState.getBooks();
                 } else {
                     return bookstoreState.getBooks().pipe(
@@ -27,6 +49,13 @@ export class BookSearch {
 
     getAvailableFilteredBooks() {
         return this.booksAvailable$.asObservable()
+    }
+
+    getGenresOptions(): GenreOptions[] {
+        return [
+            { label: ALL_BOOKS_GENRE, value: ALL_BOOKS_GENRE },
+            ...this.genreOptions
+        ]
     }
 
 }

@@ -15,5 +15,5 @@ export const syncState = new SyncState(
     bookstoreState
 )
 
-export const bookSearch = new BookSearch()
+export const bookSearch = new BookSearch(bookstoreState)
 

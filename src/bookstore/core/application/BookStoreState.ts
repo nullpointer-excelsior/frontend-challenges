@@ -1,10 +1,9 @@
-import { BehaviorSubject, Observable, map } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { Book } from "../domain/model/Book";
 import { BookStore } from "../domain/state/BookStore";
 
 export class BookStoreState {
 
-    private genres: string[] = []
     private book$: BehaviorSubject<Book[]>
     private readingList$: BehaviorSubject<Book[]>
     private booksCount$ = new BehaviorSubject(0)
@@ -14,11 +13,6 @@ export class BookStoreState {
         
         this.book$ = new BehaviorSubject(props.books)
         this.readingList$ = new BehaviorSubject(props.readingList)
-        
-        this.book$.pipe(
-            map(book => book.map(item => item.genre)),
-            map(genres => [...new Set(genres)])
-        ).subscribe(genres => this.genres = genres)
 
         this.book$.subscribe(books => this.booksCount$.next(books.length))
         this.readingList$.subscribe(readingList => this.readingCountCount$.next(readingList.length))
@@ -76,13 +70,6 @@ export class BookStoreState {
 
     getCountBooks() {
         return this.booksCount$.asObservable()
-    }
-
-    getGenres() {
-        return [
-            "Todos los libros",
-            ...this.genres
-        ]
     }
 
 }
