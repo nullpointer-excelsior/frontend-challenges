@@ -1,4 +1,4 @@
-import { Book } from "../domain/model/Book";
+import { Book } from "../domain/api/model/Book";
 import getBooks from "../domain/api/getBooks";
 
 export class StatePersistence {

@@ -1,4 +1,4 @@
-import { Book } from '../core/domain/model/Book'
+import { Book } from '../core/domain/api/model/Book'
 import BookItem from './BookItem'
 import { bookSearch, bookstoreState } from '../core/services'
 import SelectGenre from './SelectGenre'

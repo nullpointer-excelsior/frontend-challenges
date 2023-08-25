@@ -1,7 +1,7 @@
 import { filter, map, tap, fromEvent } from "rxjs";
 import { BookStoreState } from "./BookStoreState";
 import { StatePersistence } from "./StatePersistence";
-import { Book } from "../domain/model/Book";
+import { Book } from "../domain/api/model/Book";
 
 
 export const onStorage$ = fromEvent<StorageEvent>(window, 'storage')

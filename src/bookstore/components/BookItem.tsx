@@ -1,4 +1,4 @@
-import { Book } from "../core/domain/model/Book";
+import { Book } from "../core/domain/api/model/Book";
 
 const imageSize = 150
 

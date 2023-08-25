@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable } from "rxjs";
-import { Book } from "../domain/model/Book";
+import { Book } from "../domain/api/model/Book";
 import { BookStore } from "../domain/state/BookStore";
 
 export class BookStoreState {
