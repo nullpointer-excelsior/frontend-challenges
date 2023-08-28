@@ -1,11 +1,11 @@
 import { bookSearch } from '../core/services';
 import useObservableValue from '../hooks/useObservableValue';
 
-export function SelectGenre() {
+export function BookFilter() {
 
   const [available] = useObservableValue(bookSearch.getAvailableFilteredBooks(), 0)
   const [options] = useObservableValue(bookSearch.getGenresOptions(), [])
-  const[genre] = useObservableValue(bookSearch.getGenreSelected(), '')
+  const [genre] = useObservableValue(bookSearch.getGenreSelected(), '')
 
   const handleSelectGenre = (genre: string) => () => bookSearch.setFilterByGenre(genre)
 
