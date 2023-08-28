@@ -1,14 +1,6 @@
-# Midulibritos
+# Midulibritos (Challenge robado [Pruebas técnicas Midudev](https://github.com/midudev/pruebas-tecnicas/tree/main/pruebas/01-reading-list))
 
-Hola Midugente, hice este challenge a modo de práctica y me encontré con un montón de desafíos divertidos y cosas nuevas que aprendí (como el evento de `storage`), no tuve suficiente tiempo como para darle el amor que se merece así que el resultado es muy limitado.
 
-Dejé algunos comentarios en el código basado en por qué tomé algunas decisiones e intenté que sea lo más sencillo posible.
-
-Ojalá te diviertas viendolo, un poco de lo que me divertí haciendolo!
-
-Saludos 🙌
-
----
 
 # 01 - Desarrollo de una Aplicación de Lista de Libros
 
