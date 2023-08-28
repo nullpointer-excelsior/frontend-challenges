@@ -1,4 +1,4 @@
-import { BehaviorSubject, map, switchMap, tap } from "rxjs";
+import { BehaviorSubject, Observable, map, switchMap, tap } from "rxjs";
 import { bookstoreState } from "../services";
 import { BookStoreState } from "./BookStoreState";
 
@@ -11,22 +11,10 @@ type GenreOptions = {
 
 export class BookSearch {
 
-    private genreOptions: GenreOptions[] = []
     private filter$ = new BehaviorSubject<string>(ALL_BOOKS_GENRE)
     private booksAvailable$ = new BehaviorSubject(0)
 
-    constructor(private state$: BookStoreState) {
-        
-        this.state$.getBooks().pipe(
-            map(book => book.map(item => item.genre)),
-            map(genres => [...new Set(genres)]),
-            map(genres => genres.map(genre => ({
-                label: genre,
-                value: genre
-            }))),
-        ).subscribe(options => this.genreOptions = options)
-
-    }
+    constructor(private state$: BookStoreState) { }
 
     setFilterByGenre(genre: string) {
         this.filter$.next(genre)
@@ -51,11 +39,23 @@ export class BookSearch {
         return this.booksAvailable$.asObservable()
     }
 
-    getGenresOptions(): GenreOptions[] {
-        return [
-            { label: ALL_BOOKS_GENRE, value: ALL_BOOKS_GENRE },
-            ...this.genreOptions
-        ]
+    getGenreSelected() {
+        return this.filter$.asObservable()
+    }
+
+    getGenresOptions(): Observable<GenreOptions[]> {
+        return this.state$.getBooks().pipe(
+            map(book => book.map(item => item.genre)),
+            map(genres => [...new Set(genres)]),
+            map(genres => genres.map(genre => ({
+                label: genre,
+                value: genre
+            }))),
+            map(genres => [
+                { label: ALL_BOOKS_GENRE, value: ALL_BOOKS_GENRE },
+                ...genres
+            ])
+        )
     }
 
 }

@@ -3,8 +3,8 @@ export default function ReadingListIcon({ favoritos }: { favoritos: number }) {
     return (
         <>
             <svg className='w-20 stroke-white' viewBox="0 0 24 24" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                     <path fill='none' strokeMiterlimit={10} strokeWidth={1} className="cls-1" d="M14.14,6A2.55,2.55,0,0,0,12,7.18,2.52,2.52,0,0,0,9.9,6,2.55,2.55,0,0,0,7.36,8.59c0,3.81,4.66,5.09,4.66,5.09s4.67-1.28,4.67-5.09A2.55,2.55,0,0,0,14.14,6Z">
                     </path>

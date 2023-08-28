@@ -1,49 +1,28 @@
-import React, { useState } from 'react';
 import { bookSearch } from '../core/services';
 import useObservableValue from '../hooks/useObservableValue';
 
-interface Option {
-  value: string;
-  label: string;
-}
+export function SelectGenre() {
 
-interface ComboBoxProps {
-  onSelectGenre: (genre: string) => void
-}
-
-const options = bookSearch.getGenresOptions()
-
-const SelectGenre: React.FC<ComboBoxProps> = ({ onSelectGenre }) => {
-
-  const [selectedOption, setSelectedOption] = useState<Option | null>(null);
   const [available] = useObservableValue(bookSearch.getAvailableFilteredBooks(), 0)
+  const [options] = useObservableValue(bookSearch.getGenresOptions(), [])
+  const[genre] = useObservableValue(bookSearch.getGenreSelected(), '')
+
+  const handleSelectGenre = (genre: string) => () => bookSearch.setFilterByGenre(genre)
 
   return (
-    <div className='flex gap-4 text-white w-auto text-left rounded-md border p-4 border-gray-500' >
+    <div className='flex gap-4 text-white w-auto text-left rounded-md p-4'>
 
-      <div className='w-60'>
-        <label className="block mb-2 text-sm font-medium">Selecciona un género</label>
-        <select
-          value={selectedOption?.value || ''}
-          onChange={(e) => {
-            const selectedValue = e.target.value;
-            const selected = options.find((option) => option.value === selectedValue);
-            setSelectedOption(selected || null);
-            onSelectGenre(selected.value)
-          }}
-          className="bg-amber-700 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option value="" disabled>Selecciona una opción</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
+      <div className="flex items-center justify-center py-4 md:py-8 flex-wrap">
+        {
+          options.map(op => {
+            return (
+              <button key={op.value} onClick={handleSelectGenre(op.value)} className={`text-white border border-gray-400 hover:border-white ${op.value === genre ? 'bg-amber-500' : 'bg-amber-700'} focus:outline-none rounded-full text-sm font-medium px-5 py-2.5 text-center mr-3 mb-3`}>
+                {op.label} {op.value === genre ? `(${available})` : ''}
+              </button>
+            )
+          })
+        }
       </div>
-      <p className='text-2xl text-cyan-500 m-6'>{available} Disponibles</p>
     </div>
   );
 };
-
-export default SelectGenre;
