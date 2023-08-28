@@ -1,6 +1,4 @@
-# Midulibritos (Challenge robado [Pruebas técnicas Midudev](https://github.com/midudev/pruebas-tecnicas/tree/main/pruebas/01-reading-list))
-
-
+# Challenge Midulibritos (Challenge robado [Pruebas técnicas Midudev](https://github.com/midudev/pruebas-tecnicas/tree/main/pruebas/01-reading-list))
 
 # 01 - Desarrollo de una Aplicación de Lista de Libros
 
@@ -85,3 +83,15 @@ Buena suerte y ¡diviértete programando!
 - Concepto de uso de arrastrar libros: https://dribbble.com/shots/19351938-Mybooks-Page-Board
 
 - Concepto de landing para una aplicación de libros: https://dribbble.com/shots/16279204-Book-Web-Store-Concept
+
+
+## Ejecutar proyecto
+
+```bash
+#!/bin/bash
+
+npm run install
+
+npm run dev
+
+```
